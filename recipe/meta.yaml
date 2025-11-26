@@ -75,6 +75,14 @@ about:
   dev_url: https://github.com/PyAV-Org/PyAV/
 
 extra:
+  skip-lints:
+    - host_section_needs_exact_pinnings
+    - avoid_noarch
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/95756
+    reason: Dependency for qwen-vl-utils
+  recipe-maintainers:
+    - ianaobi
   recipe-maintainers:
     - danielballan
     - mikeboers
