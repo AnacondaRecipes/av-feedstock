@@ -13,7 +13,7 @@ source:
 build:
   number: 2
   script:
-    - {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+    - {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir --no-build-isolation -vvv
     # 2022/02/06: hmaarrfk
     # Tests don't seem to be passing on azure with ppc64le
     - python setup.py test                   # [(build_platform == target_platform) and (not ppc64le)]
