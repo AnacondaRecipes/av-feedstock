@@ -9,21 +9,20 @@ source:
   sha256: 8afd3d5610e1086f3b2d8389d66672ea78624516912c93612de64dcaa4c67e05
 
 build:
-  number: 4
+  number: 5
   skip: true  # [py<310 or py>=313]
-  script:
-    - {{ PYTHON }} -m pip install . --no-deps --no-cache-dir --no-build-isolation -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-cache-dir --no-build-isolation -vv
 
 requirements:
   build:
     - {{ compiler('c') }}
-    - pkg-config                # [not win]
-    - python                    # [build_platform != target_platform]
+    - pkg-config  # [not win]
+    - python  # [build_platform != target_platform]
     - cython >=0.29.36,<3
-    - numpy                     # [build_platform != target_platform]
+    - numpy  # [build_platform != target_platform]
 
   host:
-    - python {{ python }}
+    - python
     - pip
     - numpy
     - ffmpeg
@@ -40,8 +39,8 @@ test:
   commands:
     - python - <<'PY'
 from importlib.metadata import version
-import av, sys
-print("av version:", getattr(av, "__version__", "unknown"))
+import av
+print("av __version__:", getattr(av, "__version__", "unknown"))
 print("pkg version:", version("av"))
 PY
 
