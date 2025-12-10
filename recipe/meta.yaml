@@ -9,27 +9,25 @@ source:
   sha256: 8afd3d5610e1086f3b2d8389d66672ea78624516912c93612de64dcaa4c67e05
 
 build:
-  number: 5
-  # avoid the old Cython build getting forced on py<3.10 and py>=3.13
+  number: 6
+  # Avoid solver dragging in cython 0.29.36 for py38 and avoid py3.13 for now
   skip: true  # [py<310 or py>=313]
-  script: {{ PYTHON }} -m pip install . --no-deps --no-cache-dir --no-build-isolation -vv
+  script: "{{ PYTHON }} -m pip install . --no-deps --no-cache-dir --no-build-isolation -vv"
 
 requirements:
   build:
     - {{ compiler('c') }}
     - pkg-config  # [not win]
-    # cross-compile helpers (only when build != target)
+    # cross-compile helpers when build != target
     - python  # [build_platform != target_platform]
     - numpy   # [build_platform != target_platform]
     - cython >=0.29.36,<3
-
   host:
-    - python
+    - python >=3.10,<3.13
     - pip
     - numpy
     - ffmpeg
     - pillow
-
   run:
     - python
     - {{ pin_compatible('numpy') }}
@@ -39,12 +37,7 @@ test:
   imports:
     - av
   commands:
-    - python - <<'PY'
-      from importlib.metadata import version
-      import av
-      print("av __version__:", getattr(av, "__version__", "unknown"))
-      print("pkg version:", version("av"))
-PY
+    - python -c "import av, importlib.metadata as im; print('av __version__:', getattr(av, '__version__', 'unknown')); print('pkg version:', im.version('av'))"
 
 about:
   home: https://github.com/PyAV-Org/PyAV
