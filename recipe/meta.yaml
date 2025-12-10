@@ -10,6 +10,7 @@ source:
 
 build:
   number: 5
+  # avoid the old Cython build getting forced on py<3.10 and py>=3.13
   skip: true  # [py<310 or py>=313]
   script: {{ PYTHON }} -m pip install . --no-deps --no-cache-dir --no-build-isolation -vv
 
@@ -17,9 +18,10 @@ requirements:
   build:
     - {{ compiler('c') }}
     - pkg-config  # [not win]
+    # cross-compile helpers (only when build != target)
     - python  # [build_platform != target_platform]
+    - numpy   # [build_platform != target_platform]
     - cython >=0.29.36,<3
-    - numpy  # [build_platform != target_platform]
 
   host:
     - python
@@ -38,10 +40,10 @@ test:
     - av
   commands:
     - python - <<'PY'
-from importlib.metadata import version
-import av
-print("av __version__:", getattr(av, "__version__", "unknown"))
-print("pkg version:", version("av"))
+      from importlib.metadata import version
+      import av
+      print("av __version__:", getattr(av, "__version__", "unknown"))
+      print("pkg version:", version("av"))
 PY
 
 about:
@@ -58,7 +60,6 @@ extra:
     - avoid_noarch
   recipe-maintainers:
     - ianaobi
-  recipe-maintainers:
     - danielballan
     - mikeboers
     - sdvillal
