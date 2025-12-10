@@ -84,6 +84,7 @@ extra:
     reason: Dependency for qwen-vl-utils
   recipe-maintainers:
     - ianaobi
+    - bkreider
   recipe-maintainers:
     - danielballan
     - mikeboers
