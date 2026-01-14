@@ -53,6 +53,7 @@ extra:
     - avoid_noarch
   recipe-maintainers:
     - ianaobi
+  recipe-maintainers:
     - danielballan
     - mikeboers
     - sdvillal
