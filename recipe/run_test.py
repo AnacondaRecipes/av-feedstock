@@ -1,11 +1,9 @@
-# Basic video encoding taken from
+# Basic video encoding smoke test
 # https://pyav.org/docs/develop/cookbook/numpy.html#generating-video
 import numpy as np
 import av
 
-# We run tests sometimes with the GPL version of ffmpeg,
-# sometimes with the LGPL version of ffmpeg
-# only the GPL version has libx264
+# Pick codec based on what's available (GPL vs LGPL ffmpeg)
 if "libx264" in av.codecs_available:
     codec = "libx264"
 else:
@@ -43,3 +41,4 @@ for packet in stream.encode():
 
 # Close the file
 container.close()
+print("Video encoding test passed.")
