@@ -17,7 +17,7 @@ source:
 
 build:
   number: 0
-  # Upstream supports >=3.9; we disable Py_LIMITED_API so each version builds separately
+  # Upstream requires >=3.10; we disable Py_LIMITED_API so each version builds separately
   skip: true  # [py<310]
   script:
     - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
@@ -32,12 +32,15 @@ requirements:
   host:
     - python
     - pip
-    - setuptools
-    - cython
+    - setuptools >=77.0    # https://github.com/PyAV-Org/PyAV/blob/v16.1.0/pyproject.toml#L2
+    - cython >=3.1.0,<4.0  # https://github.com/PyAV-Org/PyAV/blob/v16.1.0/pyproject.toml#L3
     - numpy
     - ffmpeg {{ ffmpeg }}
   run:
     - python
+    # No upstream runtime deps; pillow and numpy are optional but needed for
+    # common workflows (image conversion, array-based frame access). Conda-forge
+    # also promotes them to required.
     - pillow
     - numpy >=1.22
 
@@ -63,7 +66,7 @@ about:
     PyAV is a Pythonic binding for FFmpeg or Libav. We aim to provide all of
     the power and control of the underlying library, but manage the gritty
     details as much as possible.
-  doc_url: https://pyav.org/docs/develop/
+  doc_url: https://pyav.basswood-io.com
   dev_url: https://github.com/PyAV-Org/PyAV/
 
 extra:
