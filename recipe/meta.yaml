@@ -1,5 +1,5 @@
 {% set name = "av" %}
-{% set version = "16.1.0" %}
+{% set version = "16.0.0" %}
 
 package:
   name: {{ name }}
@@ -7,17 +7,14 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: a094b4fd87a3721dacf02794d3d2c82b8d712c85b9534437e82a8a978c175ffd
+  sha256: c275830f9ad575a2da941177b81d11b442271d205ddb5cd27fa82930aa69b38e
   patches:
     # Convert test h264 references to openh264 (works with both GPL and LGPL ffmpeg)
     - patches/0001-Convert-h264-tests-to-openh264-for-lgpl-build.patch
-    # Disable Py_LIMITED_API to build per-Python-version (upstream uses cp311 ABI)
-    - patches/0002-Disable-cp111-abi.patch
-    - patches/cleanup_more_pylimited.patch
 
 build:
   number: 0
-  # Upstream requires >=3.11; we disable Py_LIMITED_API so each version builds separately
+  # Upstream requires >=3.11
   skip: true  # [py<311]
   script:
     - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation

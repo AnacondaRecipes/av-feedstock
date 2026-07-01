@@ -1,13 +1,15 @@
 From cd507dfe647661e3c5b7d9a3d33165497d8d10bb Mon Sep 17 00:00:00 2001
 From: Mark Harfouche <mark.harfouche@gmail.com>
 Date: Thu, 21 Mar 2024 08:57:12 -0400
-Subject: [PATCH 1/2] Convert h264 tests to openh264 for lgpl build
+Subject: [PATCH] Convert h264 tests to openh264 for lgpl build
+
+Reduced for av 16.0.0: test_subtitles.py hunk dropped because the affected
+MP4-with-video-for-subtitles case was introduced in 16.1.0.
 
 ---
  tests/test_codec_context.py | 11 +++++++----
  tests/test_encode.py        |  2 +-
- tests/test_subtitles.py     |  2 +-
- 3 files changed, 9 insertions(+), 6 deletions(-)
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/tests/test_codec_context.py b/tests/test_codec_context.py
 index 1173a58..7fce158 100644
@@ -51,19 +53,5 @@ index d64cadc..01afa19 100644
              assert stream in output.streams.video
              stream.width = WIDTH
              stream.height = HEIGHT
-diff --git a/tests/test_subtitles.py b/tests/test_subtitles.py
-index d2a1999..4ce756b 100644
---- a/tests/test_subtitles.py
-+++ b/tests/test_subtitles.py
-@@ -139,7 +139,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-         output = io.BytesIO()
-         with av.open(output, "w", format="mp4") as container:
-             # MP4 requires video for subtitles
--            video_stream = container.add_stream("libx264", rate=30)
-+            video_stream = container.add_stream("libopenh264", rate=30)
-             video_stream.width = 640
-             video_stream.height = 480
-             video_stream.pix_fmt = "yuv420p"
 -- 
 2.51.0
-
