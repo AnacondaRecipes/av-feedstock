@@ -15,7 +15,7 @@ source:
 build:
   number: 0
   # Upstream requires >=3.11
-  skip: true  # [py<311]
+  skip: true  # [py<310]
   script:
     - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   run_exports:
