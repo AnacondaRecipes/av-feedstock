@@ -31,7 +31,7 @@ requirements:
     - pip
     - setuptools >=77.0    # https://github.com/PyAV-Org/PyAV/blob/v16.1.0/pyproject.toml#L2
     - cython >=3.1.0,<4.0  # https://github.com/PyAV-Org/PyAV/blob/v16.1.0/pyproject.toml#L3
-    - numpy
+    - numpy {{ numpy }}
     - ffmpeg {{ ffmpeg }}
   run:
     - python
