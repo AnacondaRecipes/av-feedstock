@@ -54,7 +54,7 @@ test:
     - python -c "import av; print('FFmpeg version:', av.library_versions)"
 
 about:
-  home: https://github.com/PyAV-Org/PyAV/
+  home: https://pyav.basswood-io.com
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
