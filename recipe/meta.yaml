@@ -1,5 +1,5 @@
 {% set name = "av" %}
-{% set version = "16.1.0" %}
+{% set version = "19.0.1" %}
 
 package:
   name: {{ name }}
@@ -7,18 +7,17 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: a094b4fd87a3721dacf02794d3d2c82b8d712c85b9534437e82a8a978c175ffd
+  sha256: 08674930eaf1af78a3ed8f93d3ba49383323b3a867e84349d9c399e36f7497da
   patches:
     # Convert test h264 references to openh264 (works with both GPL and LGPL ffmpeg)
     - patches/0001-Convert-h264-tests-to-openh264-for-lgpl-build.patch
-    # Disable Py_LIMITED_API to build per-Python-version (upstream uses cp311 ABI)
+    # Upstream ships abi3 wheels for 3.12/3.13; disable Py_LIMITED_API so each version builds separately
     - patches/0002-Disable-cp111-abi.patch
-    - patches/cleanup_more_pylimited.patch
 
 build:
   number: 0
-  # Upstream requires >=3.11; we disable Py_LIMITED_API so each version builds separately
-  skip: true  # [py<311]
+  # Upstream requires-python >=3.12 (19.0.0 dropped 3.11); we disable Py_LIMITED_API so each version builds separately
+  skip: true  # [py<312]
   script:
     - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   run_exports:
@@ -32,8 +31,8 @@ requirements:
   host:
     - python
     - pip
-    - setuptools >=77.0    # https://github.com/PyAV-Org/PyAV/blob/v16.1.0/pyproject.toml#L2
-    - cython >=3.1.0,<4.0  # https://github.com/PyAV-Org/PyAV/blob/v16.1.0/pyproject.toml#L3
+    - setuptools >=78.0    # https://github.com/PyAV-Org/PyAV/blob/v19.0.1/pyproject.toml#L2
+    - cython >=3.3.0,<4    # https://github.com/PyAV-Org/PyAV/blob/v19.0.1/pyproject.toml#L2
     - numpy
     - ffmpeg {{ ffmpeg }}
   run:
@@ -61,12 +60,12 @@ about:
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
-  summary: Pythonic bindings for FFmpeg.
+  summary: Pythonic bindings for FFmpeg's libraries.
   description: |
     PyAV is a Pythonic binding for FFmpeg or Libav. We aim to provide all of
     the power and control of the underlying library, but manage the gritty
     details as much as possible.
-  doc_url: https://pyav.basswood-io.com
+  doc_url: https://pyav.org/docs/develop
   dev_url: https://github.com/PyAV-Org/PyAV/
 
 extra:
